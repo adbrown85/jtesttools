@@ -47,5 +47,6 @@
     <!-- Distribution -->
     <target name="dist" depends="test" description="Package project">
         <jar destfile="${dist.dir}/${jar.file}" basedir="${src.classes.dir}" />
+        <jar destfile="${dist.dir}/${src.jar.file}" basedir="${src.dir}" />
     </target>
 </project>
