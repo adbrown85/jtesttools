@@ -15,6 +15,7 @@
     <target name="clean" description="Remove all built files">
         <delete dir="${build.dir}" />
         <delete dir="${dist.dir}" />
+        <delete dir="${jar.dir}" />
     </target>
     
     <!-- Compiling -->
@@ -46,7 +47,14 @@
     
     <!-- Distribution -->
     <target name="dist" depends="test" description="Package project">
-        <jar destfile="${dist.dir}/${jar.file}" basedir="${src.classes.dir}" />
-        <jar destfile="${dist.dir}/${src.jar.file}" basedir="${src.dir}" />
+        <mkdir dir="${jar.dir}" />
+        <copy todir="${jar.dir}">
+            <fileset dir="${src.classes.dir}" />
+        </copy>
+        <copy todir="${jar.dir}">
+            <fileset dir="${src.dir}" />
+        </copy>
+        <jar destfile="${dist.dir}/${jar.file}" basedir="${jar.dir}" />
+        <delete dir="${jar.dir}" />
     </target>
 </project>
