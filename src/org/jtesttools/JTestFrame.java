@@ -1,14 +1,15 @@
 package org.jtesttools;
 
+import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
+import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 
-/** Window that works well for testing with JUnit.
+/**
+ * Window that works well for testing with JUnit.
  *  
  * <p><i>JTestFrame</i> is meant to be used in a JUnit test.  Its
  * main benefit over a regular {@link JFrame} is that by using the 
@@ -27,28 +28,29 @@ import javax.swing.SwingUtilities;
  * accept a timeout.  This way the JUnit test can close the window
  * after a certain amount of time for more automated tests.
  */
-public class JTestFrame extends JFrame implements KeyListener,
-                                                  WindowListener {
+public class JTestFrame extends JFrame {
    
-   /** Create a new test frame. */
+   /**
+    * Creates a test frame.
+    */
 	public JTestFrame() {
 		
 	   setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
 	   
-	   addKeyListener(this);
-	   addWindowListener(this);
+	   addKeyListener(new KeyObserver());
+	   addWindowListener(new WindowObserver());
 	}
 	
-	//-----------------------------------------------------------------
-   // Utilities
-   //
-	
-	/** Show frame until it's closed, then dispose of it. */
+	/**
+	 * Shows frame until it's closed, then disposes of it.
+	 */
 	public static void start(final JFrame frame) {
 	   start(frame, -1);
 	}
 	
-	/** Show frame for time milliseconds, then dispose of it. */
+	/**
+	 * Shows frame for time milliseconds, then disposes of it.
+	 */
 	public static void start(final JFrame frame, long time) {
 	   
       SwingUtilities.invokeLater(new Runnable() {
@@ -74,61 +76,34 @@ public class JTestFrame extends JFrame implements KeyListener,
       frame.setVisible(false);
       frame.dispose();
 	}
-	
-	//-----------------------------------------------------------------
-   // Event handling
+   
+	//------------------------------------------------------------
+   // Helpers
    //
 	
-	@Override
-	public void keyPressed(KeyEvent e) {
+	private synchronized void wake() {
+	   notifyAll();
 	}
 	
-	/** Notify when Escape key is pressed. */
-	@Override
-	public void keyReleased(KeyEvent e) {
-		
-	   switch (e.getKeyCode()) {
-	   case KeyEvent.VK_ESCAPE:
-	      synchronized (this) {
-	         notifyAll();
-	      }
-	      break;
-	   }
-	}
-	
-	@Override
-	public void keyTyped(KeyEvent e) {
-	}
-	
-   @Override
-   public void windowActivated(WindowEvent arg0) {
-   }
+   //------------------------------------------------------------
+   // Nested classes
+   //
    
-   @Override
-   public void windowClosed(WindowEvent arg0) {
-   }
-   
-   /** Notify when it's closing. */
-   @Override
-   public void windowClosing(WindowEvent arg0) {
-      synchronized (this) {
-         notifyAll();
+   class KeyObserver extends KeyAdapter {
+      
+      @Override
+      public void keyReleased(KeyEvent event) {
+         if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            wake();
+         }
       }
    }
    
-   @Override
-   public void windowDeactivated(WindowEvent arg0) {
-   }
-   
-   @Override
-   public void windowDeiconified(WindowEvent arg0) {
-   }
-   
-   @Override
-   public void windowIconified(WindowEvent arg0) {
-   }
-   
-   @Override
-   public void windowOpened(WindowEvent arg0) {
+   class WindowObserver extends WindowAdapter {
+      
+      @Override
+      public void windowClosing(WindowEvent event) {
+         wake();
+      }
    }
 }
