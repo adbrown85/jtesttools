@@ -62,7 +62,9 @@ public class JTestFrame extends JFrame {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
             public void run() {
-                frame.pack();
+                if (!hasSize(frame)) {
+                    frame.pack();
+                }
                 frame.setVisible(true);
             }
         });
@@ -102,6 +104,20 @@ public class JTestFrame extends JFrame {
      */
     private synchronized void wake() {
         notifyAll();
+    }
+    
+    /**
+     * Checks if a size has been specified for a frame.
+     * 
+     * @param frame JFrame to check, may be generic
+     * @return <tt>true</tt> if frame has a width or height
+     */
+    private static boolean hasSize(JFrame frame) {
+       
+       int width = frame.getWidth();
+       int height = frame.getHeight();
+       
+       return (width > 0) || (height > 0);
     }
     
     //------------------------------------------------------------
