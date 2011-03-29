@@ -10,7 +10,7 @@ import javax.swing.SwingUtilities;
 
 /**
  * Window that works well for testing with JUnit.
- *  
+ * 
  * <p><i>JTestFrame</i> is meant to be used in a JUnit test.  Its
  * main benefit over a regular {@link JFrame} is that by using the 
  * {@link #start} method you can make the JUnit thread block
@@ -29,110 +29,110 @@ import javax.swing.SwingUtilities;
  * after a certain amount of time for more automated tests.
  */
 public class JTestFrame extends JFrame {
-   
-   /**
-    * Creates a test frame.
-    */
-   public JTestFrame() {
-      setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-      addListeners();
-   }
-   
-   /**
-    * Shows a frame until it's closed, then disposes of it.
-    * 
-    * @param frame JFrame to show, may be generic
-    */
-   public static void run(final JFrame frame) {
-      run(frame, -1);
-   }
-   
-   /**
-    * Shows a frame for a certain amount of time, then disposes of it.
-    * 
-    * @param frame JFrame to show, may be generic
-    * @param time Number of milliseconds to wait for frame to close
-    * @throws RuntimeException if interrupted while waiting
-    */
-   public static void run(final JFrame frame, long time) {
-      
-      // Show the frame
-      SwingUtilities.invokeLater(new Runnable() {
-         @Override
-         public void run() {
-            frame.pack();
-            frame.setVisible(true);
-         }
-      });
-      
-      // Wait for it to close
-      synchronized (frame) {
-         try {
-            if (time < 0) {
-               frame.wait();
-            } else {
-               frame.wait(time);
+    
+    /**
+     * Creates a test frame.
+     */
+    public JTestFrame() {
+        setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        addListeners();
+    }
+    
+    /**
+     * Shows a frame until it's closed, then disposes of it.
+     * 
+     * @param frame JFrame to show, may be generic
+     */
+    public static void run(final JFrame frame) {
+        run(frame, -1);
+    }
+    
+    /**
+     * Shows a frame for a certain amount of time, then disposes of it.
+     * 
+     * @param frame JFrame to show, may be generic
+     * @param time Number of milliseconds to wait for frame to close
+     * @throws RuntimeException if interrupted while waiting
+     */
+    public static void run(final JFrame frame, long time) {
+        
+        // Show the frame
+        SwingUtilities.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                frame.pack();
+                frame.setVisible(true);
             }
-         } catch (InterruptedException e) {
-            throw new RuntimeException("Interrupted while waiting!");
-         }
-      }
-      
-      // Dispose of frame
-      frame.setVisible(false);
-      frame.dispose();
-   }
-   
-   //------------------------------------------------------------
-   // Helpers
-   //
-   
-   /**
-    * Adds required listeners.
-    */
-   private void addListeners() {
-      addKeyListener(new KeyObserver());
-      addWindowListener(new WindowObserver());
-   }
-   
-   /**
-    * Wakes up all threads waiting on the frame.
-    */
-   private synchronized void wake() {
-      notifyAll();
-   }
-   
-   //------------------------------------------------------------
-   // Nested classes
-   //
-   
-   /**
-    * Observer of key events.
-    */
-   class KeyObserver extends KeyAdapter {
-      
-      /**
-       * Wakes up waiting threads when the Escape key is pressed.
-       */
-      @Override
-      public void keyReleased(KeyEvent event) {
-         if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
+        });
+        
+        // Wait for it to close
+        synchronized (frame) {
+            try {
+                if (time < 0) {
+                    frame.wait();
+                } else {
+                    frame.wait(time);
+                }
+            } catch (InterruptedException e) {
+                throw new RuntimeException("Interrupted while waiting!");
+            }
+        }
+        
+        // Dispose of frame
+        frame.setVisible(false);
+        frame.dispose();
+    }
+    
+    //------------------------------------------------------------
+    // Helpers
+    //
+    
+    /**
+     * Adds required listeners.
+     */
+    private void addListeners() {
+        addKeyListener(new KeyObserver());
+        addWindowListener(new WindowObserver());
+    }
+    
+    /**
+     * Wakes up all threads waiting on the frame.
+     */
+    private synchronized void wake() {
+        notifyAll();
+    }
+    
+    //------------------------------------------------------------
+    // Nested classes
+    //
+    
+    /**
+     * Observer of key events.
+     */
+    class KeyObserver extends KeyAdapter {
+        
+        /**
+         * Wakes up waiting threads when the Escape key is pressed.
+         */
+        @Override
+        public void keyReleased(KeyEvent event) {
+            if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
+                wake();
+            }
+        }
+    }
+    
+    /**
+     * Observer of window events.
+     */
+    class WindowObserver extends WindowAdapter {
+        
+        /**
+         * Wakes up waiting threads when the window is closed.
+         */
+        @Override
+        public void windowClosing(WindowEvent event) {
             wake();
-         }
-      }
-   }
-   
-   /**
-    * Observer of window events.
-    */
-   class WindowObserver extends WindowAdapter {
-      
-      /**
-       * Wakes up waiting threads when the window is closed.
-       */
-      @Override
-      public void windowClosing(WindowEvent event) {
-         wake();
-      }
-   }
+        }
+    }
 }

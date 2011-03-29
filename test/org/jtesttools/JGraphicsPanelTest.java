@@ -10,21 +10,21 @@ import org.junit.Test;
 
 
 public class JGraphicsPanelTest {
-   
-   private static final long WAIT_TIME = 1000;
-   
-   @Test
-   public void testPaint() {
-      
-      final JFrame frame = new JTestFrame();
-      final Shape shape = new Ellipse2D.Float(20, 20, 50, 50);
-      
-      frame.add(new JGraphicsPanel() {
-         @Override
-         public void doPaint(Graphics2D g2d) {
-            g2d.draw(shape);
-         }
-      });
-      JTestFrame.run(frame, WAIT_TIME);
-   }
+    
+    private static final long WAIT_TIME = 1000;
+    
+    @Test
+    public void testPaint() {
+        
+        final JFrame frame = new JTestFrame();
+        final Shape shape = new Ellipse2D.Float(20, 20, 50, 50);
+        
+        frame.add(new JGraphicsPanel() {
+            @Override
+            public void doPaint(Graphics2D g2d) {
+                g2d.draw(shape);
+            }
+        });
+        JTestFrame.run(frame, WAIT_TIME);
+    }
 }

@@ -29,110 +29,110 @@ public abstract class JGraphicsPanel extends JPanel
                                      implements MouseListener,
                                                 MouseMotionListener,
                                                 MouseWheelListener {
-   
-   private static final int DEFAULT_WIDTH = 512;
-   private static final int DEFAULT_HEIGHT = 512;
-   
-   private boolean moveOrigin;
-   private int button, zoom;
-   private Point pan, location;
-   
-   /** Initializes the graphics panel. */
-   public JGraphicsPanel() {
-      this(false);
-   }
-   
-   /** Initializes the graphics panel. */
-   public JGraphicsPanel(boolean moveOrigin) {
-      
-      this.moveOrigin = moveOrigin;
-      
-      zoom = 1;
-      location = new Point();
-      pan = new Point();
-      
-      addMouseListener(this);
-      addMouseMotionListener(this);
-      addMouseWheelListener(this);
-      
-      setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
-   }
-   
-   /** Performs some default actions, then calls {@link #doPaint}. */
-   public final void paint(Graphics g) {
-      
-      Graphics2D g2d = (Graphics2D) g;
-      
-      g2d.clearRect(0, 0, getWidth(), getHeight());
-      if (moveOrigin) {
-         g2d.translate(0, getHeight());
-      }
-      g2d.translate(pan.x, pan.y);
-      g2d.scale(zoom, zoom);
-      doPaint(g2d);
-   }
-   
-   //-----------------------------------------------------------------
-   // Hooks
-   //
-   
-   /** Hook for subclasses to paint into the panel using Java2D. */
-   public abstract void doPaint(Graphics2D g2d);
-   
-   //-----------------------------------------------------------------
-   // Event handling
-   //
-   
-   @Override
-   public void mouseClicked(MouseEvent arg0) {
-   }
-   
-   @Override
-   public void mouseEntered(MouseEvent arg0) {
-   }
-   
-   @Override
-   public void mouseExited(MouseEvent arg0) {
-   }
-   
-   /** Store mouse state for later. */
-   @Override
-   public void mousePressed(MouseEvent e) {
-      button = e.getButton();
-      location.setLocation(e.getX(), e.getY());
-   }
-   
-   /** Store mouse state for later. */
-   @Override
-   public void mouseReleased(MouseEvent e) {
-      button = e.getButton();
-      location.setLocation(e.getX(), e.getY());
-   }
-   
-   /** Pan the panel when the middle mouse is dragged. */
-   @Override
-   public void mouseDragged(MouseEvent e) {
-      
-      if (button != 2) {
-         return;
-      }
-      
-      pan.x += e.getX() - location.x;
-      pan.y += e.getY() - location.y;
-      
-      location.setLocation(e.getX(), e.getY());
-      
-      repaint();
-   }
-   
-   @Override
-   public void mouseMoved(MouseEvent e) {
-   }
-   
-   /** Change the zoom factor when the mouse wheel is rotated. */
-   @Override
-   public void mouseWheelMoved(MouseWheelEvent e) {
-      zoom -= e.getWheelRotation();
-      repaint();
-   }
+    
+    private static final int DEFAULT_WIDTH = 512;
+    private static final int DEFAULT_HEIGHT = 512;
+    
+    private boolean moveOrigin;
+    private int button, zoom;
+    private Point pan, location;
+    
+    /** Initializes the graphics panel. */
+    public JGraphicsPanel() {
+        this(false);
+    }
+    
+    /** Initializes the graphics panel. */
+    public JGraphicsPanel(boolean moveOrigin) {
+        
+        this.moveOrigin = moveOrigin;
+        
+        zoom = 1;
+        location = new Point();
+        pan = new Point();
+        
+        addMouseListener(this);
+        addMouseMotionListener(this);
+        addMouseWheelListener(this);
+        
+        setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+    }
+    
+    /** Performs some default actions, then calls {@link #doPaint}. */
+    public final void paint(Graphics g) {
+        
+        Graphics2D g2d = (Graphics2D) g;
+        
+        g2d.clearRect(0, 0, getWidth(), getHeight());
+        if (moveOrigin) {
+            g2d.translate(0, getHeight());
+        }
+        g2d.translate(pan.x, pan.y);
+        g2d.scale(zoom, zoom);
+        doPaint(g2d);
+    }
+    
+    //-----------------------------------------------------------------
+    // Hooks
+    //
+    
+    /** Hook for subclasses to paint into the panel using Java2D. */
+    public abstract void doPaint(Graphics2D g2d);
+    
+    //-----------------------------------------------------------------
+    // Event handling
+    //
+    
+    @Override
+    public void mouseClicked(MouseEvent arg0) {
+    }
+    
+    @Override
+    public void mouseEntered(MouseEvent arg0) {
+    }
+    
+    @Override
+    public void mouseExited(MouseEvent arg0) {
+    }
+    
+    /** Store mouse state for later. */
+    @Override
+    public void mousePressed(MouseEvent e) {
+        button = e.getButton();
+        location.setLocation(e.getX(), e.getY());
+    }
+    
+    /** Store mouse state for later. */
+    @Override
+    public void mouseReleased(MouseEvent e) {
+        button = e.getButton();
+        location.setLocation(e.getX(), e.getY());
+    }
+    
+    /** Pan the panel when the middle mouse is dragged. */
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        
+        if (button != 2) {
+            return;
+        }
+        
+        pan.x += e.getX() - location.x;
+        pan.y += e.getY() - location.y;
+        
+        location.setLocation(e.getX(), e.getY());
+        
+        repaint();
+    }
+    
+    @Override
+    public void mouseMoved(MouseEvent e) {
+    }
+    
+    /** Change the zoom factor when the mouse wheel is rotated. */
+    @Override
+    public void mouseWheelMoved(MouseWheelEvent e) {
+        zoom -= e.getWheelRotation();
+        repaint();
+    }
 }

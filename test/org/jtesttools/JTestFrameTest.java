@@ -8,17 +8,17 @@ import org.junit.Test;
 
 
 public class JTestFrameTest {
-   
-   private static final long WAIT_TIME = 1000;
-   
-   @Test
-   public void testRun() throws Exception {
-      
-      JFrame frame = new JTestFrame();
-      JPanel panel = new JPanel();
-      
-      panel.setPreferredSize(new Dimension(600, 400));
-      frame.add(panel);
-      JTestFrame.run(frame, WAIT_TIME);
-   }
+    
+    private static final long WAIT_TIME = 1000;
+    
+    @Test
+    public void testRun() throws Exception {
+        
+        JFrame frame = new JTestFrame();
+        JPanel panel = new JPanel();
+        
+        panel.setPreferredSize(new Dimension(600, 400));
+        frame.add(panel);
+        JTestFrame.run(frame, WAIT_TIME);
+    }
 }
