@@ -9,6 +9,8 @@ import org.junit.Test;
 
 public class JTestFrameTest {
    
+   private static final long WAIT_TIME = 2000;
+   
    @Test
    public void testRun() throws Exception {
       
@@ -17,9 +19,9 @@ public class JTestFrameTest {
       frame.add(new JGraphicsPanel() {
          @Override
          public void doPaint(Graphics2D g2d) {
-            
+            ;
          }
       });
-      JTestFrame.start(frame);
+      JTestFrame.start(frame, WAIT_TIME);
    }
 }
