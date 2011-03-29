@@ -1,5 +1,6 @@
 package org.jtesttools;
 
+import java.awt.Canvas;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
@@ -85,6 +86,30 @@ public class JTestFrame extends JFrame {
         // Dispose of frame
         frame.setVisible(false);
         frame.dispose();
+    }
+    
+    /**
+     * Shows a canvas in a temporary frame for a short amount of time.
+     * 
+     * @param canvas Custom canvas object
+     */
+    public static void run(final Canvas canvas) {
+        run(canvas, DEFAULT_WAIT_TIME);
+    }
+    
+    /**
+     * Shows a canvas in a temporary frame for a certain amount of time.
+     * 
+     * @param canvas Custom canvas object
+     * @param time Number of milliseconds to wait for frame to close
+     * @throws RuntimeException if interrupted while waiting
+     */
+    public static void run(final Canvas canvas, long time) {
+        
+        final JFrame frame = new JTestFrame();
+        
+        frame.add(canvas);
+        run(frame, time);
     }
     
     //------------------------------------------------------------

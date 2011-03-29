@@ -1,5 +1,6 @@
 package org.jtesttools;
 
+import java.awt.Canvas;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -20,5 +21,14 @@ public class JTestFrameTest {
         panel.setPreferredSize(new Dimension(600, 400));
         frame.add(panel);
         JTestFrame.run(frame, WAIT_TIME);
+    }
+    
+    @Test
+    public void testRunCanvas() throws Exception {
+        
+        Canvas canvas = new Canvas();
+        
+        canvas.setPreferredSize(new Dimension(600, 400));
+        JTestFrame.run(canvas, WAIT_TIME);
     }
 }
