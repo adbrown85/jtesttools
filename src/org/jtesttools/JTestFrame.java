@@ -30,6 +30,8 @@ import javax.swing.SwingUtilities;
  */
 public class JTestFrame extends JFrame {
     
+    private static final long DEFAULT_WAIT_TIME = 2000;
+    
     /**
      * Creates a test frame.
      */
@@ -39,12 +41,12 @@ public class JTestFrame extends JFrame {
     }
     
     /**
-     * Shows a frame until it's closed, then disposes of it.
+     * Shows a frame for a short amount of time, then disposes of it.
      * 
      * @param frame JFrame to show, may be generic
      */
     public static void run(final JFrame frame) {
-        run(frame, -1);
+        run(frame, DEFAULT_WAIT_TIME);
     }
     
     /**
