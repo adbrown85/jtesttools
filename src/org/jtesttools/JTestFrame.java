@@ -42,6 +42,7 @@ public class JTestFrame extends JFrame {
     
     private static final long DEFAULT_WAIT_TIME = 2000;
     private static final String DEFAULT_TITLE = "Test";
+    private static final int DEFAULT_CLOSE_KEY = KeyEvent.VK_ESCAPE;
     
     /**
      * Creates a test frame.
@@ -180,7 +181,7 @@ public class JTestFrame extends JFrame {
          */
         @Override
         public void keyReleased(KeyEvent event) {
-            if (event.getKeyCode() == KeyEvent.VK_ESCAPE) {
+            if (event.getKeyCode() == DEFAULT_CLOSE_KEY) {
                 wake();
             }
         }
