@@ -10,6 +10,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
 import javax.swing.JPanel;
+import javax.swing.event.MouseInputAdapter;
 
 
 /** Abstract JPanel that is well-suited for drawing with Java2D.
@@ -25,10 +26,7 @@ import javax.swing.JPanel;
  * doPaint} method as a hook.  This way you still get the same 
  * functionality, but you have to do a bit less.
  */
-public abstract class JGraphicsPanel extends JPanel
-                                     implements MouseListener,
-                                                MouseMotionListener,
-                                                MouseWheelListener {
+public abstract class JGraphicsPanel extends JPanel {
     
     private static final int DEFAULT_WIDTH = 512;
     private static final int DEFAULT_HEIGHT = 512;
@@ -43,11 +41,8 @@ public abstract class JGraphicsPanel extends JPanel
         location = new Point();
         pan = new Point();
         
-        addMouseListener(this);
-        addMouseMotionListener(this);
-        addMouseWheelListener(this);
-        
         setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
+        new MouseObserver();
     }
     
     /** Performs some default actions, then calls {@link #doPaint}. */
@@ -68,60 +63,56 @@ public abstract class JGraphicsPanel extends JPanel
     /** Hook for subclasses to paint into the panel using Java2D. */
     public abstract void doPaint(Graphics2D g2d);
     
-    //-----------------------------------------------------------------
-    // Event handling
+    //------------------------------------------------------------
+    // Nested classes
     //
     
-    @Override
-    public void mouseClicked(MouseEvent arg0) {
-    }
-    
-    @Override
-    public void mouseEntered(MouseEvent arg0) {
-    }
-    
-    @Override
-    public void mouseExited(MouseEvent arg0) {
-    }
-    
-    /** Store mouse state for later. */
-    @Override
-    public void mousePressed(MouseEvent e) {
-        button = e.getButton();
-        location.setLocation(e.getX(), e.getY());
-    }
-    
-    /** Store mouse state for later. */
-    @Override
-    public void mouseReleased(MouseEvent e) {
-        button = e.getButton();
-        location.setLocation(e.getX(), e.getY());
-    }
-    
-    /** Pan the panel when the middle mouse is dragged. */
-    @Override
-    public void mouseDragged(MouseEvent e) {
+    /**
+     * Observer of mouse events.
+     */
+    class MouseObserver extends MouseInputAdapter {
         
-        if (button != 2) {
-            return;
+        MouseObserver() {
+            JGraphicsPanel.this.addMouseListener(this);
+            JGraphicsPanel.this.addMouseMotionListener(this);
+            JGraphicsPanel.this.addMouseWheelListener(this);
         }
         
-        pan.x += e.getX() - location.x;
-        pan.y += e.getY() - location.y;
+        /** Pan the panel when the middle mouse is dragged. */
+        @Override
+        public void mouseDragged(MouseEvent e) {
+            
+            if (button != 2) {
+                return;
+            }
+            
+            pan.x += e.getX() - location.x;
+            pan.y += e.getY() - location.y;
+            
+            location.setLocation(e.getX(), e.getY());
+            
+            repaint();
+        }
         
-        location.setLocation(e.getX(), e.getY());
+        /** Store mouse state for later. */
+        @Override
+        public void mousePressed(MouseEvent e) {
+            button = e.getButton();
+            location.setLocation(e.getX(), e.getY());
+        }
         
-        repaint();
-    }
-    
-    @Override
-    public void mouseMoved(MouseEvent e) {
-    }
-    
-    /** Change the zoom factor when the mouse wheel is rotated. */
-    @Override
-    public void mouseWheelMoved(MouseWheelEvent e) {
-        zoom -= e.getWheelRotation();
-        repaint();
+        /** Store mouse state for later. */
+        @Override
+        public void mouseReleased(MouseEvent e) {
+            button = e.getButton();
+            location.setLocation(e.getX(), e.getY());
+        }
+        
+        /** Change the zoom factor when the mouse wheel is rotated. */
+        @Override
+        public void mouseWheelMoved(MouseWheelEvent e) {
+            zoom -= e.getWheelRotation();
+            repaint();
+        }
     }
 }
