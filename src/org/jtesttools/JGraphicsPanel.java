@@ -9,6 +9,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
 import java.awt.event.MouseWheelListener;
+import java.awt.geom.Point2D;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
 
@@ -31,16 +32,13 @@ public abstract class JGraphicsPanel extends JPanel {
     private static final int DEFAULT_WIDTH = 512;
     private static final int DEFAULT_HEIGHT = 512;
     
-    private int button, zoom;
-    private Point pan, location;
+    private final Point2D.Float pan = new Point2D.Float();
+    private final Point location = new Point();
+    private int button = 0;
+    private float zoom = 1;
     
     /** Initializes the graphics panel. */
     public JGraphicsPanel() {
-        
-        zoom = 1;
-        location = new Point();
-        pan = new Point();
-        
         setPreferredSize(new Dimension(DEFAULT_WIDTH, DEFAULT_HEIGHT));
         new MouseObserver();
     }
@@ -49,10 +47,13 @@ public abstract class JGraphicsPanel extends JPanel {
     public final void paint(Graphics g) {
         
         Graphics2D g2d = (Graphics2D) g;
+        float cx = getWidth() / 2;
+        float cy = getHeight() / 2;
         
         g2d.clearRect(0, 0, getWidth(), getHeight());
-        g2d.translate(pan.x, pan.y);
+        g2d.translate(cx, cy);
         g2d.scale(zoom, zoom);
+        g2d.translate(-cx + pan.x, -cy + pan.y);
         doPaint(g2d);
     }
     
@@ -86,8 +87,8 @@ public abstract class JGraphicsPanel extends JPanel {
                 return;
             }
             
-            pan.x += e.getX() - location.x;
-            pan.y += e.getY() - location.y;
+            pan.x += (e.getX() - location.x) / zoom;
+            pan.y += (e.getY() - location.y) / zoom;
             
             location.setLocation(e.getX(), e.getY());
             
@@ -111,7 +112,14 @@ public abstract class JGraphicsPanel extends JPanel {
         /** Change the zoom factor when the mouse wheel is rotated. */
         @Override
         public void mouseWheelMoved(MouseWheelEvent e) {
-            zoom -= e.getWheelRotation();
+            
+            int amount = e.getWheelRotation();
+            
+            if (amount < 0) {
+                zoom *= 2;
+            } else {
+                zoom *= 0.5;
+            }
             repaint();
         }
     }
