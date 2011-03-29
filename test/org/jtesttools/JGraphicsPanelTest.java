@@ -6,24 +6,18 @@ import java.awt.geom.Ellipse2D;
 import javax.swing.JFrame;
 import org.jtesttools.JGraphicsPanel;
 import org.jtesttools.JTestFrame;
-import org.junit.Before;
 import org.junit.Test;
-
 
 
 public class JGraphicsPanelTest {
    
-   Shape shape;
-   
-   @Before
-   public void setUp() {
-      shape = new Ellipse2D.Float(20, 20, 50, 50);
-   }
+   private static final long WAIT_TIME = 2000;
    
    @Test
    public void testPaint() {
       
-      JFrame frame = new JTestFrame();
+      final JFrame frame = new JTestFrame();
+      final Shape shape = new Ellipse2D.Float(20, 20, 50, 50);
       
       frame.add(new JGraphicsPanel() {
          @Override
@@ -31,6 +25,6 @@ public class JGraphicsPanelTest {
             g2d.draw(shape);
          }
       });
-      JTestFrame.start(frame);
+      JTestFrame.start(frame, WAIT_TIME);
    }
 }
