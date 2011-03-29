@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
 
@@ -136,6 +137,30 @@ public class JTestFrame extends JFrame {
         final JFrame frame = new JTestFrame();
         
         frame.add(canvas);
+        run(frame, time);
+    }
+    
+    /**
+     * Shows a panel in a temporary frame for a short amount of time.
+     * 
+     * @param panel JPanel instance
+     */
+    public static void run(final JPanel panel) {
+        run(panel, DEFAULT_WAIT_TIME);
+    }
+    
+    /**
+     * Shows a panel in a temporary frame for a certain amount of time.
+     * 
+     * @param panel JPanel instance
+     * @param time Number of milliseconds to wait for frame to close
+     * @throws RuntimeException if interrupted while waiting
+     */
+    public static void run(final JPanel panel, long time) {
+        
+        final JFrame frame = new JTestFrame();
+        
+        frame.add(panel);
         run(frame, time);
     }
     

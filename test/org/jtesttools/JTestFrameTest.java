@@ -31,4 +31,13 @@ public class JTestFrameTest {
         canvas.setPreferredSize(new Dimension(600, 400));
         JTestFrame.run(canvas, WAIT_TIME);
     }
+    
+    @Test
+    public void testRunPanel() throws Exception {
+        
+        JPanel panel = new JPanel();
+        
+        panel.setPreferredSize(new Dimension(600, 400));
+        JTestFrame.run(panel, WAIT_TIME);
+    }
 }
