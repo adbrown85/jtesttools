@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<project name="jtesttools" default="dist">
+	
+	<!-- Initialization -->
+	<property file="build.properties" />
+	<path id="classpath">
+		<fileset dir="${lib.dir}">
+			<include name="*.jar" />
+		</fileset>
+		<pathelement location="${src.classes.dir}"/>
+		<pathelement location="${test.classes.dir}"/>
+	</path>
+	
+	<!-- Cleaning -->
+	<target name="clean" description="Remove all built files">
+		<delete dir="${build.dir}" />
+		<delete dir="${dist.dir}" />
+	</target>
+	
+	<!-- Compiling -->
+	<target name="compile" description="Compile all classes">
+		<mkdir dir="${src.classes.dir}" />
+		<javac destdir="${src.classes.dir}" includeantruntime="no">
+			<src path="${src.dir}" />
+			<classpath refid="classpath" />
+		</javac>
+		<mkdir dir="${test.classes.dir}" />
+		<javac destdir="${test.classes.dir}" includeantruntime="no">
+			<src path="${test.dir}" />
+			<classpath refid="classpath" />
+		</javac>
+	</target>
+	
+	<!-- Testing -->
+	<target name="test" depends="compile" description="Test classes">
+		<junit haltonfailure="yes" printsummary="false">
+			<classpath refid="classpath" />
+			<formatter type="plain" usefile="no" />
+			<batchtest>
+				<fileset dir="${test.classes.dir}">
+					<include name="**/*Test.class" />
+				</fileset>
+			</batchtest>
+		</junit>
+	</target>
+	
+	<!-- Distribution -->
+	<target name="dist" depends="test" description="Package project">
+		<jar destfile="${dist.dir}/${jar.file}" basedir="${src.classes.dir}" />
+	</target>
+</project>
