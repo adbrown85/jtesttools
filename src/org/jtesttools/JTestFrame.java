@@ -64,7 +64,8 @@ public class JTestFrame extends JFrame {
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         setLocation(DEFAULT_LOCATION_X, DEFAULT_LOCATION_Y);
         
-        addListeners();
+        addKeyListener(new KeyObserver());
+        addWindowListener(new WindowObserver());
     }
     
     /**
@@ -141,14 +142,6 @@ public class JTestFrame extends JFrame {
     //------------------------------------------------------------
     // Helpers
     //
-    
-    /**
-     * Adds required listeners.
-     */
-    private void addListeners() {
-        addKeyListener(new KeyObserver());
-        addWindowListener(new WindowObserver());
-    }
     
     /**
      * Wakes up all threads waiting on the frame.
