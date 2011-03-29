@@ -10,24 +10,33 @@ import javax.swing.SwingUtilities;
 
 
 /**
- * Window that works well for testing with JUnit.
+ * JFrame well-suited for use in JUnit tests.
  * 
- * <p><i>JTestFrame</i> is meant to be used in a JUnit test.  Its
- * main benefit over a regular {@link JFrame} is that by using the 
- * {@link #start} method you can make the JUnit thread block
- * until the window is closed.  This is needed because unlike a 
- * regular <i>main</i> method the JUnit thread will not normally do
- * so.
+ * <p><i>JTestFrame</i> makes using windows in unit tests easy by
+ * performing several tasks for the developer.
  * 
- * <p>Since a thread is now waiting on the frame, special care must
- * be taken to notify the thread when the window is finally closed.
- * JTestFrame does so by responding to window closing events and
- * then calling the {@link notifyAll} method.  The user can close the
- * window using the mouse or by pressing the ESC key.
+ * <p>Most importantly, it allows the developer to open a window and
+ * have JUnit wait for it to close.  Normally this is not a concern
+ * with a normal <tt>main</tt> method because the JVM waits for the
+ * Swing thread to finish before exiting.  However, JUnit exits as
+ * soon as the main thread gets to the end of the test cases.
+ * Therefore windows in JUnit tests are closed immediately, or never
+ * show up in the first place.
  * 
- * <p>Lastly, the {@link #start} method is overloaded to 
- * accept a timeout.  This way the JUnit test can close the window
- * after a certain amount of time for more automated tests.
+ * <p><i>JTestFrame</i> approaches this problem from two directions.
+ * First, it provides static <i>run</i> methods that show a frame and
+ * then call {@link #wait()} on it.  When a test launches the window
+ * in this manner, the JUnit thread pauses.  Second, when an instance
+ * of <i>JTestFrame</i> is closed, instead of exiting, it hides itself
+ * and calls {@link notifyAll()}.  The paused JUnit thread therefore
+ * restarts, disposes of the frame, and continues onto the next test.
+ * 
+ * <p>Besides this important functionality, <i>JTestFrame</i> also
+ * <ul>
+ *    <li>allows the user to close the window by pressing the Escape key,
+ *    <li>can stop waiting for the window after a certain amount of time, and
+ *    <li>packs the frame if an explicit size has not been set.
+ * </ul>
  */
 public class JTestFrame extends JFrame {
     
