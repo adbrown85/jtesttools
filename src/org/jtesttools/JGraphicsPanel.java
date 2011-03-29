@@ -33,19 +33,11 @@ public abstract class JGraphicsPanel extends JPanel
     private static final int DEFAULT_WIDTH = 512;
     private static final int DEFAULT_HEIGHT = 512;
     
-    private boolean moveOrigin;
     private int button, zoom;
     private Point pan, location;
     
     /** Initializes the graphics panel. */
     public JGraphicsPanel() {
-        this(false);
-    }
-    
-    /** Initializes the graphics panel. */
-    public JGraphicsPanel(boolean moveOrigin) {
-        
-        this.moveOrigin = moveOrigin;
         
         zoom = 1;
         location = new Point();
@@ -64,9 +56,6 @@ public abstract class JGraphicsPanel extends JPanel
         Graphics2D g2d = (Graphics2D) g;
         
         g2d.clearRect(0, 0, getWidth(), getHeight());
-        if (moveOrigin) {
-            g2d.translate(0, getHeight());
-        }
         g2d.translate(pan.x, pan.y);
         g2d.scale(zoom, zoom);
         doPaint(g2d);
