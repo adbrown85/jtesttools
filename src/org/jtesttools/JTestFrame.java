@@ -34,11 +34,8 @@ public class JTestFrame extends JFrame {
     * Creates a test frame.
     */
 	public JTestFrame() {
-		
 	   setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
-	   
-	   addKeyListener(new KeyObserver());
-	   addWindowListener(new WindowObserver());
+	   addListeners();
 	}
 	
 	/**
@@ -89,6 +86,14 @@ public class JTestFrame extends JFrame {
 	//------------------------------------------------------------
    // Helpers
    //
+	
+	/**
+	 * Adds required listeners.
+	 */
+	private void addListeners() {
+      addKeyListener(new KeyObserver());
+      addWindowListener(new WindowObserver());
+	}
 	
 	/**
 	 * Wakes up all threads waiting on the frame.
