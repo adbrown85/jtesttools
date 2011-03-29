@@ -11,7 +11,7 @@ import org.junit.Test;
 
 public class JGraphicsPanelTest {
    
-   private static final long WAIT_TIME = 2000;
+   private static final long WAIT_TIME = 1000;
    
    @Test
    public void testPaint() {
