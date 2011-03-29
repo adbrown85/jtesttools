@@ -41,11 +41,23 @@ import javax.swing.SwingUtilities;
 public class JTestFrame extends JFrame {
     
     private static final long DEFAULT_WAIT_TIME = 2000;
+    private static final String DEFAULT_TITLE = "Test";
     
     /**
      * Creates a test frame.
      */
     public JTestFrame() {
+        this(DEFAULT_TITLE);
+    }
+    
+    /**
+     * Creates a test frame with a title.
+     * 
+     * @param title Text to show on window
+     */
+    public JTestFrame(String title) {
+        super(title);
+        
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
         addListeners();
     }
