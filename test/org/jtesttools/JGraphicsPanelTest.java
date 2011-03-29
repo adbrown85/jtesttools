@@ -17,11 +17,11 @@ public class JGraphicsPanelTest {
     public void testPaint() {
         
         final JFrame frame = new JTestFrame();
-        final Shape shape = new Ellipse2D.Float(20, 20, 50, 50);
+        final Shape shape = new Ellipse2D.Float(200, 200, 50, 50);
         
         frame.add(new JGraphicsPanel() {
             @Override
-            public void doPaint(Graphics2D g2d) {
+            public void doPaintComponent(Graphics2D g2d) {
                 g2d.draw(shape);
             }
         });

@@ -5,10 +5,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseWheelEvent;
-import java.awt.event.MouseWheelListener;
 import java.awt.geom.Point2D;
 import javax.swing.JPanel;
 import javax.swing.event.MouseInputAdapter;
@@ -45,24 +42,25 @@ public abstract class JGraphicsPanel extends JPanel {
     
     /** Performs some default actions, then calls {@link #doPaint}. */
     public final void paint(Graphics g) {
+        super.paint(g);
+    }
+    
+    /** Performs some actions, then calls {@link #doPaintComponent}. */
+    public final void paintComponent(Graphics g) {
+        super.paintComponent(g);
         
         Graphics2D g2d = (Graphics2D) g;
         float cx = getWidth() / 2;
         float cy = getHeight() / 2;
         
-        g2d.clearRect(0, 0, getWidth(), getHeight());
         g2d.translate(cx, cy);
         g2d.scale(zoom, zoom);
         g2d.translate(-cx + pan.x, -cy + pan.y);
-        doPaint(g2d);
+        doPaintComponent(g2d);
     }
     
-    //-----------------------------------------------------------------
-    // Hooks
-    //
-    
     /** Hook for subclasses to paint into the panel using Java2D. */
-    public abstract void doPaint(Graphics2D g2d);
+    public abstract void doPaintComponent(Graphics2D g2d);
     
     //------------------------------------------------------------
     // Nested classes
