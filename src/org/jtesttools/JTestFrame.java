@@ -44,14 +44,14 @@ public class JTestFrame extends JFrame {
 	/**
 	 * Shows frame until it's closed, then disposes of it.
 	 */
-	public static void start(final JFrame frame) {
-	   start(frame, -1);
+	public static void run(final JFrame frame) {
+	   run(frame, -1);
 	}
 	
 	/**
 	 * Shows frame for time milliseconds, then disposes of it.
 	 */
-	public static void start(final JFrame frame, long time) {
+	public static void run(final JFrame frame, long time) {
 	   
       SwingUtilities.invokeLater(new Runnable() {
          @Override

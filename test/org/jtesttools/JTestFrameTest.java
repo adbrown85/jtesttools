@@ -19,6 +19,6 @@ public class JTestFrameTest {
       
       panel.setPreferredSize(new Dimension(600, 400));
       frame.add(panel);
-      JTestFrame.start(frame, WAIT_TIME);
+      JTestFrame.run(frame, WAIT_TIME);
    }
 }

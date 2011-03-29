@@ -25,6 +25,6 @@ public class JGraphicsPanelTest {
             g2d.draw(shape);
          }
       });
-      JTestFrame.start(frame, WAIT_TIME);
+      JTestFrame.run(frame, WAIT_TIME);
    }
 }
