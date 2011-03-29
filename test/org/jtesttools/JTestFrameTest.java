@@ -1,8 +1,8 @@
 package org.jtesttools;
 
-import java.awt.Graphics2D;
+import java.awt.Dimension;
 import javax.swing.JFrame;
-import org.jtesttools.JGraphicsPanel;
+import javax.swing.JPanel;
 import org.jtesttools.JTestFrame;
 import org.junit.Test;
 
@@ -15,13 +15,10 @@ public class JTestFrameTest {
    public void testRun() throws Exception {
       
       JFrame frame = new JTestFrame();
+      JPanel panel = new JPanel();
       
-      frame.add(new JGraphicsPanel() {
-         @Override
-         public void doPaint(Graphics2D g2d) {
-            ;
-         }
-      });
+      panel.setPreferredSize(new Dimension(600, 400));
+      frame.add(panel);
       JTestFrame.start(frame, WAIT_TIME);
    }
 }
