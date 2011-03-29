@@ -43,6 +43,8 @@ public class JTestFrame extends JFrame {
     private static final long DEFAULT_WAIT_TIME = 2000;
     private static final String DEFAULT_TITLE = "Test";
     private static final int DEFAULT_CLOSE_KEY = KeyEvent.VK_ESCAPE;
+    private static final int DEFAULT_LOCATION_X = 40;
+    private static final int DEFAULT_LOCATION_Y = 40;
     
     /**
      * Creates a test frame.
@@ -60,6 +62,8 @@ public class JTestFrame extends JFrame {
         super(title);
         
         setDefaultCloseOperation(JFrame.HIDE_ON_CLOSE);
+        setLocation(DEFAULT_LOCATION_X, DEFAULT_LOCATION_Y);
+        
         addListeners();
     }
     
