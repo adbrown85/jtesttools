@@ -1,1 +1,12 @@
 Various tools for extending JUnit functionality
+
+v0.7
+ - Can launch a JPanel or Canvas directly
+ - JTestFrame can accept a title
+v0.6
+ - JTestFrame only packs if size not already set
+ - Default wait time is 2 seconds
+v0.5
+ - Better mouse controls in JGraphicsPanel
+ - JGraphicsPanel fully respects Swing drawing policy
+ - Renamed JTestFrame #start() to #run()
